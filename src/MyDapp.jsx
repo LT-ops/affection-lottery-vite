@@ -22,10 +22,13 @@ function MyDapp() {
     numParticipants: [0, 0, 0],
   });
   const [affectionBalance, setAffectionBalance] = useState(0);
+  const [activeTier, setActiveTier] = useState(0); // 0: Silver, 1: Gold, 2: Diamond
 
   const dev2TaxPercentage = 25; // Percentage for top participants
   const devFeePercentage = 5; // Percentage for site improvements
-  const contractAddress = '0xC863fE879EB06D3999eD80a04bBA21ab41966C0a'; // Replace with your actual contract address
+  const contractAddress = '0xf729Be9fde78Ea358b787f0E87170438C0743737'; // Updated contract address
+
+  const tierAmounts = [500, 2000, 5000];
 
   async function isPulseChainConnected() {
     if (typeof window.ethereum !== 'undefined') {
@@ -373,27 +376,31 @@ function MyDapp() {
     fetchLotteryData();
   }, [provider, account]);
 
+  useEffect(() => {
+    setTokenAmount(tierAmounts[activeTier].toString());
+  }, [activeTier]);
+
   return (
     <div className="my-dapp">
-      <header>
+      <div className="header-bar">
         <h1>Affection Lottery</h1>
         <div className="social-links">
           <a href="https://x.com/affection_pls" target="_blank" rel="noopener noreferrer">
-            <img src={process.env.PUBLIC_URL + "/x_logo.png"} alt="X Logo" width="20" height="20" />
+            <img src="/x_logo.png" alt="X Logo" />
             X (Twitter)
           </a>
           <a href="https://t.me/affection_pls" target="_blank" rel="noopener noreferrer">
-            <img src={process.env.PUBLIC_URL + "/telegram_logo.png"} alt="Telegram Logo" width="20" height="20" />
+            <img src="/telegram_logo.png" alt="Telegram Logo" />
             Telegram
           </a>
           <a href="https://linktr.ee/affection_pls" target="_blank" rel="noopener noreferrer">
-            <img src={process.env.PUBLIC_URL + "/world-wide-web.png"} alt="Website Logo" width="20" height="20" />
+            <img src="/world-wide-web.png" alt="Website Logo" />
             Website
           </a>
         </div>
-      </header>
+      </div>
       
-      {networkError && (
+      {networkError && !walletConnected && (
         <div className="network-error">
           <p>{networkError}</p>
           <p>
@@ -432,59 +439,65 @@ function MyDapp() {
       {walletConnected && (
         <div className="lottery-info">
           <h2>Lottery Tiers</h2>
-
           <p>Lottery Balance: {lotteryData.prizePool} AFF</p>
           <button onClick={() => window.open('https://pulsex.mypinata.cloud/ipfs/bafybeibzu7nje2o2tufb3ifitjrto3n3xcwon7fghq2igtcupulfubnrim/#/', '_blank')}>Buy AFF on PulseX</button>
-
-          <div className="lottery-tier">
-            <h3>Silver</h3>
-            <p>{lotteryData.numParticipants[0]} spots - Cost: 500 AFF - Prize Pool: 3500 AFF</p>
-            <div className="lottery-actions">
-              <input
-                type="text"
-                placeholder="Enter token amount"
-                value={tokenAmount}
-                onChange={(e) => setTokenAmount(e.target.value)}
-              />
-              <button className="cta-button" onClick={handleApproveTokens}>Approve Tokens</button>
-              <button className="cta-button" onClick={handleEnterLottery}>Enter Lottery</button>
-            </div>
+          <div className="lottery-tabs">
+            <button className={activeTier === 0 ? 'active' : ''} onClick={() => setActiveTier(0)}>Silver</button>
+            <button className={activeTier === 1 ? 'active' : ''} onClick={() => setActiveTier(1)}>Gold</button>
+            <button className={activeTier === 2 ? 'active' : ''} onClick={() => setActiveTier(2)}>Diamond</button>
           </div>
-
-          <div className="lottery-tier">
-            <h3>Gold</h3>
-            <p>{lotteryData.numParticipants[1]} spots - Cost: 2000 AFF - Prize Pool: 7000 AFF</p>
-            <div className="lottery-actions">
-              <input
-                type="text"
-                placeholder="Enter token amount"
-                value={tokenAmount}
-                onChange={(e) => setTokenAmount(e.target.value)}
-              />
-              <button className="cta-button" onClick={handleApproveTokens}>Approve Tokens</button>
-              <button className="cta-button" onClick={handleEnterLottery}>Enter Lottery</button>
-            </div>
-          </div>
-
-          <div className="lottery-tier">
-            <h3>Diamond</h3>
-            <p>{lotteryData.numParticipants[2]} spots - Cost: 5000 AFF - Prize Pool: 7000 AFF</p>
-            <div className="lottery-actions">
-              <input
-                type="text"
-                placeholder="Enter token amount"
-                value={tokenAmount}
-                onChange={(e) => setTokenAmount(e.target.value)}
-              />
-              <button className="cta-button" onClick={handleApproveTokens}>Approve Tokens</button>
-              <button className="cta-button" onClick={handleEnterLottery}>Enter Lottery</button>
-            </div>
+          <div className="lottery-tier-panel">
+            {activeTier === 0 && (
+              <div className="lottery-tier">
+                <h3>Silver</h3>
+                <p>{lotteryData.numParticipants[0]} spots - Cost: 500 AFF - Prize Pool: 3500 AFF</p>
+                <div className="lottery-actions">
+                  <input
+                    type="text"
+                    value={tokenAmount}
+                    readOnly
+                  />
+                  <button className="cta-button" onClick={handleApproveTokens}>Approve Tokens</button>
+                  <button className="cta-button" onClick={handleEnterLottery}>Enter Lottery</button>
+                </div>
+              </div>
+            )}
+            {activeTier === 1 && (
+              <div className="lottery-tier">
+                <h3>Gold</h3>
+                <p>{lotteryData.numParticipants[1]} spots - Cost: 2000 AFF - Prize Pool: 7000 AFF</p>
+                <div className="lottery-actions">
+                  <input
+                    type="text"
+                    value={tokenAmount}
+                    readOnly
+                  />
+                  <button className="cta-button" onClick={handleApproveTokens}>Approve Tokens</button>
+                  <button className="cta-button" onClick={handleEnterLottery}>Enter Lottery</button>
+                </div>
+              </div>
+            )}
+            {activeTier === 2 && (
+              <div className="lottery-tier">
+                <h3>Diamond</h3>
+                <p>{lotteryData.numParticipants[2]} spots - Cost: 5000 AFF - Prize Pool: 7000 AFF</p>
+                <div className="lottery-actions">
+                  <input
+                    type="text"
+                    value={tokenAmount}
+                    readOnly
+                  />
+                  <button className="cta-button" onClick={handleApproveTokens}>Approve Tokens</button>
+                  <button className="cta-button" onClick={handleEnterLottery}>Enter Lottery</button>
+                </div>
+              </div>
+            )}
           </div>
           <div className="lottery-summary">
             <p>Winning Pot Taxed: 30%</p>
             <p>Prize Pool Tax: 25%</p>
             <p>Affection tipjar: 5%</p>
-            <a className="contract-link" href="https://scan.9mm.pro/address/0xC863fE879EB06D3999eD80a04bBA21ab41966C0a" target="_blank" rel="noopener noreferrer">
+            <a className="contract-link" href="https://scan.9mm.pro/address/0xf729Be9fde78Ea358b787f0E87170438C0743737" target="_blank" rel="noopener noreferrer">
               View Contract on PulseScan
             </a>
           </div>

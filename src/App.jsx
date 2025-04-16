@@ -3,7 +3,7 @@ import logo from './logo.png'; // Import the logo
 import MyDapp from './MyDapp';
 import './App.css';
 
-console.log('App component rendered'); // Add this line
+// console.log('App component rendered'); // Add this line
 
 function App() {
   return (

@@ -74,12 +74,55 @@
   margin-bottom: 12px;
 }
 
+.header-bar {
+  background: linear-gradient(90deg, #23272f 60%, #ffc107 100%);
+  padding: 32px 0 18px 0;
+  border-radius: 0 0 18px 18px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.10);
+  margin-bottom: 32px;
+}
+.header-bar h1 {
+  color: #fff;
+  font-size: 2.5rem;
+  margin-bottom: 18px;
+  letter-spacing: 1px;
+}
+.social-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 28px;
+  margin-bottom: 0;
+  background: #fffbe6;
+  border-radius: 8px;
+  padding: 10px 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
 .social-links a {
-  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, 1px 1px 0 #000, 1px 1px 0 #000;
-  background-color: #e0f7fa;
-  color: #000;
-  padding: 5px;
-  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fffbe6;
+  color: #23272f;
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: none;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s, transform 0.15s;
+  border: 2px solid #ffc107;
+}
+.social-links a:hover {
+  background: #ffc107;
+  color: #23272f;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.16);
+  transform: translateY(-2px) scale(1.04);
+}
+.social-links img {
+  width: 28px;
+  height: 28px;
+  display: block;
 }
 
 .contract-link {
@@ -102,4 +145,118 @@
   margin: 4px 2px;
   cursor: pointer;
   border-radius: 5px;
+}
+
+.lottery-tabs {
+  display: flex;
+  justify-content: center;
+  margin: 24px 0 16px 0;
+  gap: 12px;
+}
+.lottery-tabs button {
+  background: #222;
+  color: #fff;
+  border: none;
+  border-bottom: 3px solid transparent;
+  padding: 10px 28px;
+  font-size: 18px;
+  border-radius: 8px 8px 0 0;
+  cursor: pointer;
+  transition: background 0.2s, border-bottom 0.2s;
+}
+.lottery-tabs button.active {
+  background: #ffc107;
+  color: #222;
+  border-bottom: 3px solid #ffc107;
+  font-weight: bold;
+}
+.lottery-tier-panel {
+  background: #f8f9fa;
+  border-radius: 0 0 12px 12px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  padding: 32px 16px 24px 16px;
+  margin-bottom: 24px;
+  min-height: 220px;
+}
+.lottery-tier {
+  max-width: 420px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 10px;
+  padding: 24px 18px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+  border: 1.5px solid #ffc107;
+}
+.lottery-tier h3 {
+  margin-bottom: 10px;
+  font-size: 26px;
+  color: #23272f;
+}
+.lottery-tier p {
+  margin-bottom: 18px;
+  font-size: 18px;
+  color: #23272f;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+}
+.lottery-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.lottery-actions input[type="text"] {
+  background: #f3f3f3;
+  border: 1px solid #ffc107;
+  color: #23272f;
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 16px;
+}
+.lottery-summary {
+  margin: 18px 0 10px 0;
+  font-size: 15px;
+  color: #bbb;
+}
+.lottery-summary a {
+  display: inline-block;
+  margin-top: 8px;
+}
+
+.wallet-info,
+.lottery-info,
+.network-error,
+.participants {
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+@media (max-width: 600px) {
+  .header-bar {
+    padding: 18px 0 10px 0;
+    border-radius: 0 0 10px 10px;
+    margin-bottom: 18px;
+  }
+  .header-bar h1 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+  }
+  .social-links {
+    gap: 10px;
+    padding: 6px 0;
+  }
+  .social-links a {
+    font-size: 15px;
+    padding: 7px 10px;
+  }
+  .social-links img {
+    width: 20px;
+    height: 20px;
+  }
+  .lottery-tier-panel {
+    padding: 16px 2px 16px 2px;
+  }
+  .lottery-tier {
+    padding: 14px 4px;
+  }
 }
